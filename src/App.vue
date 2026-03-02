@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import HelloWorld from './components/HelloWorld.vue'
+import DummySwitch from "./components/DummySwitch.vue";
 </script>
 
 <template>
@@ -12,6 +13,8 @@ import HelloWorld from './components/HelloWorld.vue'
     </a>
   </div>
   <HelloWorld msg="Vite + Vue" />
+
+  <DummySwitch/>
 </template>
 
 <style scoped>
