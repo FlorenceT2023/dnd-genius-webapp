@@ -11,6 +11,8 @@ import { NH1 } from 'naive-ui'
 
 <style scoped>
 
-.title { color: lightgray;}
+.title { 
+  color: lightgray;
+}
 
 </style>
