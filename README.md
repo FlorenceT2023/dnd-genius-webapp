@@ -12,3 +12,9 @@ Learn more about the recommended Project Setup and IDE Support in the [Vue Docs 
 npm i -D naive-ui
 npm i -D @vicons/fluent
 ```
+
+## Start App
+
+```shell
+npm run dev
+```
