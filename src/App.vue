@@ -13,10 +13,10 @@ import { NH1, NMessageProvider, NSpace } from 'naive-ui'
   <n-space>
   
     <SearchBar />
-  
-  <n-message-provider>
-    <Dropdown />
-  </n-message-provider>
+
+    <n-message-provider>
+      <Dropdown />
+    </n-message-provider>
 
 </n-space>
 
