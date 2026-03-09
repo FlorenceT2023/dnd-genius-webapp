@@ -1,9 +1,13 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 // import type { Spell } from '../models/jsonformat'
 import { NDataTable } from 'naive-ui'
+import { useSpellsStore } from '@/stores/spellsSearch'
 
 // const spells = ref([] as Spell[])
+
+const spellStore = useSpellsStore()
+const data = spellStore.spells
 
 function createColumns() {
   return [
@@ -14,20 +18,8 @@ function createColumns() {
   ]
 }
 
-interface Song {
-  no: number
-  spellname: string
-  length: string
-}
-
-const data: Song[] = [
-  { no: 3, spellname: 'Wonderwall', length: '4:18' },
-  { no: 4, spellname: 'Don\'t Look Back in Anger', length: '4:48' },
-  { no: 12, spellname: 'Champagne Supernova', length: '7:27' }
-]
 const columns = createColumns()
 const pagination = false as const
-
 </script>
 
 <template>
