@@ -30,12 +30,13 @@ const options: DropdownOption[] = [
 
 // handler when  user clicks a level spell option
 async function handleSelect(key: number) {
-  const response = await fetch(`https://www.dnd5eapi.co/api/2014/spells?level=${key}`)
-  const result = (await response.json()) as JsonFormat
+  // const response = await fetch(`https://localhost:8080/spells/api/2014/spells?level=${key}`)
+  // const result = (await response.json()) as JsonFormat
   spellStore.selectLevel(key)
-  console.log(result)
-  spellsCount.value = result.count
-  spells.value = result.results
+  // console.log(result)
+  // spellsCount.value = result.count
+  // spells.value = result.results
+  
 }
 
 </script>
@@ -52,6 +53,7 @@ async function handleSelect(key: number) {
 </template>
 
 <style scoped>
+
 
 .button { 
   color: lightgray;
