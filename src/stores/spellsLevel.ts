@@ -4,9 +4,10 @@ import { ref } from 'vue'
 // but it's best to use the name of the store and surround it with `use`
 // and `Store` (e.g. `useUserStore`, `useCartStore`, `useProductStore`)
 // the first argument is a unique id of the store across your application
-export const useSpellsStore = defineStore('spells', () => {
-    const level = ref(0)
-    function selectLevel(newLevel:number) {
+export const useLevelStore = defineStore('level', () => {
+  const level = ref(0)
+  
+  function selectLevel(newLevel: number) {
     level.value = newLevel
   }
 

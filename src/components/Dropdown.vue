@@ -2,11 +2,11 @@
 import { type DropdownOption } from 'naive-ui'
 import {ref} from 'vue'
 import type { JsonFormat, Spell } from '../models/jsonformat'
-import { useSpellsStore } from '../stores/spells'
+import { useLevelStore } from '../stores/spellsLevel'
 
 const spells = ref([] as Spell[])
 const spellsCount = ref(0)
-const spellStore = useSpellsStore()
+const levelStore = useLevelStore()
 
 const options: DropdownOption[] = [
   {
@@ -32,7 +32,7 @@ const options: DropdownOption[] = [
 async function handleSelect(key: number) {
   // const response = await fetch(`https://localhost:8080/spells/api/2014/spells?level=${key}`)
   // const result = (await response.json()) as JsonFormat
-  spellStore.selectLevel(key)
+  levelStore.selectLevel(key)
   // console.log(result)
   // spellsCount.value = result.count
   // spells.value = result.results
@@ -47,7 +47,7 @@ async function handleSelect(key: number) {
     :options="options"
     @select="handleSelect"
   >
-    <n-button size="large" class="button" round>Level {{ spellStore.level }}</n-button>
+    <n-button size="large" class="button" round>Level {{ levelStore.level }}</n-button>
   </n-dropdown>
 
 </template>
