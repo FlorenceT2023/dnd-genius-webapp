@@ -1,11 +1,13 @@
 export type JsonFormat = {
-    count: number
-    results: Spell[]
+    data: Data
+}
+
+export type Data = {
+    spells: Spell[]
 }
 
 export type Spell = {
-    index: string
+    id: string
     name: string
-    level: number
-    url: string
 }
+

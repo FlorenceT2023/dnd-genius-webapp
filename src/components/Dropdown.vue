@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { type DropdownOption } from 'naive-ui'
 import {ref} from 'vue'
-import type { JsonFormat, Spell } from '../models/jsonformat'
+import type { Spell } from '../models/jsonformat'
 import { useLevelStore } from '../stores/spellsLevel'
 
 const spells = ref([] as Spell[])
