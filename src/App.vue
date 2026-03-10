@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import Dropdown from './components/Dropdown.vue';
 import SearchBar from './components/SearchBar.vue';
-import { NH1, NMessageProvider, NSpace } from 'naive-ui'
-import TableDisplay from '@/components/tableDisplay.vue';
+import { NH1, NSpace } from 'naive-ui'
+import TableDisplay from '@/components/TableDisplay.vue';
 import SearchButton from './components/SearchButton.vue';
 </script>
 

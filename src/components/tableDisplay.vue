@@ -7,7 +7,7 @@ import { useSpellsStore } from '@/stores/spellsSearch'
 // const spells = ref([] as Spell[])
 
 const spellStore = useSpellsStore()
-const data = spellStore.spells
+const data = computed(() => spellStore.spells)
 
 function createColumns() {
   return [
@@ -29,7 +29,10 @@ const pagination = false as const
   <!-- Perhaps make the spell name the URL??? -->
 
 
-  <n-data-table :columns="columns" :data="data" :pagination="pagination" :bordered="false" />
+  <!-- 4 states to consider doing an wired component: zero state, loading state, working state, error state  -->
+   <!-- error state: https://www.naiveui.com/en-US/os-theme/components/result -->
+    <!-- loading state: https://www.naiveui.com/en-US/os-theme/components/spin -->
+  <n-data-table v-if="spellStore.spells.length !=0" :columns="columns" :data="data" :pagination="pagination" :bordered="false" />
 
 </template>
 
@@ -41,4 +44,5 @@ const pagination = false as const
 .rowHeader {
   font-size: medium;
 }
+
 </style>
