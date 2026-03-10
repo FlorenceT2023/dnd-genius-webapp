@@ -4,8 +4,8 @@ import {ref} from 'vue'
 import type { Spell } from '../models/jsonformat'
 import { useLevelStore } from '../stores/spellsLevel'
 
-const spells = ref([] as Spell[])
-const spellsCount = ref(0)
+// const spells = ref([] as Spell[])
+// const spellsCount = ref(0)
 const levelStore = useLevelStore()
 
 const options: DropdownOption[] = [
