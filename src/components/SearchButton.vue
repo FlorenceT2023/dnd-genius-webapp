@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { JsonFormat } from '@/models/jsonformat';
-// import type { Spell } from '@/models/spell';
 import { useSpellsStore } from '@/stores/spellsSearch';
 import { NButton } from 'naive-ui'
 
