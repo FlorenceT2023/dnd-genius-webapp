@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { NDataTable, darkTheme } from 'naive-ui'
+import { NDataTable } from 'naive-ui'
 import { useSpellsStore } from '@/stores/spellsSearch'
 
 
@@ -19,6 +19,18 @@ function createColumns() {
 
 const columns = createColumns()
 const pagination = false as const
+const themeOverrides = {
+  DataTable: {
+    thColor: '#242424',
+    thTextColor: '#ffffff',
+    thFontWeight: '700',
+    thFontSize: '22px',
+    tdColor: '#242424',
+    tdTextColor: '#ffffff',
+    tdColorHover: '#575757'
+  }
+};
+
 </script>
 
 <template>
@@ -28,7 +40,11 @@ const pagination = false as const
   <!-- 4 states to consider doing an wired component: zero state, loading state, working state, error state  -->
    <!-- error state: https://www.naiveui.com/en-US/os-theme/components/result -->
     <!-- loading state: https://www.naiveui.com/en-US/os-theme/components/spin -->
-  <n-data-table v-if="spellStore.spells.length !=0" :theme-overrides="darkTheme" :columns="columns" :data="data" :pagination="pagination" :bordered="false" />
+
+  <n-config-provider :theme-overrides="themeOverrides">
+      <n-data-table v-if="spellStore.spells.length !=0" :columns="columns" :data="data" :pagination="pagination" :bordered="false" />
+
+  </n-config-provider>
 
 </template>
 
@@ -40,6 +56,5 @@ const pagination = false as const
 .rowHeader {
   font-size: medium;
 }
-
 
 </style>
