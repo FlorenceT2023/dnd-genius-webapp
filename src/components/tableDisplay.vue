@@ -22,7 +22,7 @@ const themeOverrides = {
     tdColor: '#242424',
     tdTextColor: '#ffffff',
     tdColorHover: '#575757',
-  },
+  }
 
 </script>
 
