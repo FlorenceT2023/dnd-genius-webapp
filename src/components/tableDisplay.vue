@@ -18,12 +18,11 @@ function createColumns() {
 const columns = createColumns()
 const pagination = false as const
 const themeOverrides = {
-    thFontSize: '22px',
-    tdColor: '#242424',
-    tdTextColor: '#ffffff',
-    tdColorHover: '#575757',
-  }
-
+  thFontSize: '22px',
+  tdColor: '#242424',
+  tdTextColor: '#ffffff',
+  tdColorHover: '#575757',
+}
 </script>
 
 <template>

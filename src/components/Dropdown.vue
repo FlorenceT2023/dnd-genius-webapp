@@ -26,7 +26,6 @@ const options: DropdownOption[] = [
 // handler when  user clicks a level spell option
 async function handleSelect(key: number) {
   levelStore.selectLevel(key)
-
 }
 // TODO tiny UI bug where it display "Level 0" when no level is selected, it should say something like "All Spells"
 </script>
