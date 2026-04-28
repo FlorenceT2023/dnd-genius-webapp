@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, reactive } from 'vue'
 import { NDataTable, NSpin } from 'naive-ui'
 import { useSpellsStore } from '@/stores/spellsSearch'
 import { useLoadingStore } from '@/stores/loading.ts'
@@ -18,7 +18,17 @@ function createColumns() {
 }
 
 const columns = createColumns()
-const pagination = false as const
+const pagination = reactive({
+  page: 1,
+  pageSize: 10,
+  onChange: (page: number) => {
+    pagination.page = page
+  },
+  onUpdatePageSize: (pageSize: number) => {
+    pagination.pageSize = pageSize
+    pagination.page = 1
+  }
+})
 const themeOverrides = {
   DataTable: {
     thColor: '#242424',
