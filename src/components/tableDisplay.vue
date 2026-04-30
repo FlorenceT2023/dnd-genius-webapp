@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { NDataTable, NSpin } from 'naive-ui'
+import { NDataTable, NResult, NSpin, NFlex } from 'naive-ui'
 import { useSpellsStore } from '@/stores/spellsSearch'
 import { useLoadingStore } from '@/stores/loading.ts'
-// TODO should rename the file from tableDisplay to TableDisplay
+
 const spellStore = useSpellsStore()
 const loadingStore = useLoadingStore()
 const data = computed(() => spellStore.spells)
@@ -18,12 +18,11 @@ function createColumns() {
 const columns = createColumns()
 const pagination = false as const
 const themeOverrides = {
-    thFontSize: '22px',
-    tdColor: '#242424',
-    tdTextColor: '#ffffff',
-    tdColorHover: '#575757',
-  }
-
+  thFontSize: '22px',
+  tdColor: '#242424',
+  tdTextColor: '#ffffff',
+  tdColorHover: '#575757',
+}
 </script>
 
 <template>
@@ -34,20 +33,41 @@ const themeOverrides = {
   <!-- loading state: https://www.naiveui.com/en-US/os-theme/components/spin -->
 
   <n-config-provider :theme-overrides="themeOverrides">
-    <n-spin v-if="loadingStore.loading" size="large" />
+    <n-flex vertical class="wrapper">
+      <n-spin v-if="!spellStore.hasError && loadingStore.loading" size="large" />
 
-    <n-data-table
-      v-if="!loadingStore.loading && spellStore.spells.length != 0"
-      :columns="columns"
-      :data="data"
-      :pagination="pagination"
-      :bordered="false"
-    />
+      <n-result
+        v-if="!loadingStore.loading && spellStore.hasError"
+        status="500"
+        title="500 Server Error"
+      >
+        <div>
+          <p class="error-result">Something went wrong...</p>
+        </div>
+      </n-result>
+
+      <n-data-table
+        v-if="!loadingStore.loading && !spellStore.hasError && spellStore.spells.length != 0"
+        :columns="columns"
+        :data="data"
+        :pagination="pagination"
+        :bordered="false"
+      />
+    </n-flex>
   </n-config-provider>
 </template>
 
 <style scoped>
+.wrapper {
+  margin-top: 1rem;
+  height: max-content;
+}
 .rowHeader {
   font-size: medium;
+}
+
+.error-result {
+  color: white;
+  font-size: 20px;
 }
 </style>
