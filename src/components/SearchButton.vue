@@ -7,6 +7,8 @@ import { useLevelStore } from '@/stores/spellsLevel.ts'
 const spellStore = useSpellsStore()
 const loadingStore = useLoadingStore()
 const levelStore = useLevelStore()
+
+// TODO consider moving that logic to a service
 async function handleClick() {
   loadingStore.changeState(true)
   try {
@@ -17,8 +19,9 @@ async function handleClick() {
     const response = await fetch(spellUrl)
     const result = (await response.json()) as JsonFormat
     spellStore.storeSpells(result.data.spells.map(({ name }) => ({ spellname: name })))
+    spellStore.setHasError(false)
   } catch (error) {
-    // TODO handle error state, e.g. the API call didn't succeed
+    spellStore.setHasError(true)
   } finally {
     loadingStore.changeState(false)
   }

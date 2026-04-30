@@ -4,11 +4,16 @@ import { ref } from 'vue'
 
 export const useSpellsStore = defineStore('spells', () => {
   const spells = ref<Spell[]>([])
+  const hasError = ref<boolean>(false)
 
   function storeSpells(spellsList: Spell[]) {
     console.log(spellsList)
     spells.value = spellsList
   }
 
-  return { spells, storeSpells }
+  const setHasError = (toggle: boolean) => {
+    hasError.value = toggle
+  }
+
+  return { spells, hasError, setHasError, storeSpells }
 })
