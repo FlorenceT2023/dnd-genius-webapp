@@ -48,15 +48,27 @@ const themeOverrides = {
   <!-- error state: https://www.naiveui.com/en-US/os-theme/components/result -->
   <!-- loading state: https://www.naiveui.com/en-US/os-theme/components/spin -->
   <n-config-provider :theme-overrides="themeOverrides">
-    <n-spin v-if="loadingStore.loading" size="large" />
+    <n-flex vertical class="wrapper">
+      <n-spin v-if="!spellStore.hasError && loadingStore.loading" size="large" />
 
-    <n-data-table
-      v-if="!loadingStore.loading && spellStore.spells.length != 0"
-      :columns="columns"
-      :data="data"
-      :pagination="pagination"
-      :bordered="false"
-    />
+      <n-result
+        v-if="!loadingStore.loading && spellStore.hasError"
+        status="500"
+        title="500 Server Error"
+      >
+        <div>
+          <p class="error-result">Something went wrong...</p>
+        </div>
+      </n-result>
+
+      <n-data-table
+        v-if="!loadingStore.loading && !spellStore.hasError && spellStore.spells.length != 0"
+        :columns="columns"
+        :data="data"
+        :pagination="pagination"
+        :bordered="false"
+      />
+    </n-flex>
   </n-config-provider>
 </template>
 

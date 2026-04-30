@@ -14,11 +14,11 @@ import SearchButton from './components/SearchButton.vue';
   <n-space vertical>
 
     <n-space>
-
       <SearchBar />
       <Dropdown />
       <SearchButton />
     </n-space>
+    
     <TableDisplay />
   </n-space>
 
