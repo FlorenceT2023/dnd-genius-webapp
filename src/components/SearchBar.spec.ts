@@ -3,7 +3,7 @@ import { describe, it, expect } from 'vitest'
 import { NInput } from 'naive-ui'
 import SearchBar from '@/components/SearchBar.vue'
 
-describe('SearchBar',  () => {
+describe('SearchBar', () => {
   describe('Component', () => {
     it('renders an input with the correct placeholder', () => {
       const wrapper = mount(SearchBar)
