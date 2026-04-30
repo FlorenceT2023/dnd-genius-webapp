@@ -6,7 +6,7 @@ import { ref } from 'vue'
 // the first argument is a unique id of the store across your application
 export const useLevelStore = defineStore('level', () => {
   const level = ref(0)
-  
+
   function selectLevel(newLevel: number) {
     level.value = newLevel
   }
