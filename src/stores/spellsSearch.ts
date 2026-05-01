@@ -7,7 +7,6 @@ export const useSpellsStore = defineStore('spells', () => {
   const hasError = ref<boolean>(false)
 
   function storeSpells(spellsList: Spell[]) {
-    console.log(spellsList)
     spells.value = spellsList
   }
 

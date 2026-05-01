@@ -27,7 +27,7 @@ const pagination = reactive({
   onUpdatePageSize: (pageSize: number) => {
     pagination.pageSize = pageSize
     pagination.page = 1
-  }
+  },
 })
 const themeOverrides = {
   DataTable: {
