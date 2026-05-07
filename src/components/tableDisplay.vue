@@ -7,6 +7,7 @@ import { useLoadingStore } from '@/stores/loading.ts'
 const spellStore = useSpellsStore()
 const loadingStore = useLoadingStore()
 const showModal = ref(false)
+const title = ref<string>("Flo")
 
 // I think data needs to be modified in order for modal to work?
 const data = computed(() => spellStore.spells)
@@ -19,9 +20,8 @@ function rowProps(row: RowData) {
   return {
     style: 'cursor: pointer;',
     onClick: () => {
-      console.log(row.spellname)
       showModal.value = true
-
+      title.value = row.spellname
     }
   }
 }
@@ -104,7 +104,7 @@ const segmented = {
         class="custom-card"
         preset="card"
         :style="bodyStyle"
-        title= "Spell Name"
+        :title= "title"
         :bordered="false"
         size="huge"
         :segmented="segmented"
