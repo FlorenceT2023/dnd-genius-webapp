@@ -3,11 +3,13 @@ import { computed, reactive, ref } from 'vue'
 import { NDataTable, NSpin, NModal } from 'naive-ui'
 import { useSpellsStore } from '@/stores/spellsSearch'
 import { useLoadingStore } from '@/stores/loading.ts'
+import type { ModalFormat } from '@/models/modalformat'
 
 const spellStore = useSpellsStore()
 const loadingStore = useLoadingStore()
 const showModal = ref(false)
-const title = ref<string>("Flo")
+const title = ref<string>("")
+const description = ref<string>("")
 
 // I think data needs to be modified in order for modal to work?
 const data = computed(() => spellStore.spells)
@@ -19,9 +21,14 @@ interface RowData {
 function rowProps(row: RowData) {
   return {
     style: 'cursor: pointer;',
-    onClick: () => {
+    onClick: async () => {
       showModal.value = true
       title.value = row.spellname
+      let spellUrl = `http://localhost:8080/spell/alter-self`
+      const response = await fetch(spellUrl)
+      const result = (await response.json()) as ModalFormat
+      description.value = result.data.description
+      console.log(result)
     }
   }
 }
@@ -109,7 +116,7 @@ const segmented = {
         size="huge"
         :segmented="segmented"
       >
-        <div> Spell description </div>
+        <div> {{ description }} </div>
         
       </n-modal>
     </n-flex>
