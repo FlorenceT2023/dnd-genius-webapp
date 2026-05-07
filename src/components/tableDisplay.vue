@@ -3,10 +3,14 @@ import { computed, reactive } from 'vue'
 import { NDataTable, NSpin } from 'naive-ui'
 import { useSpellsStore } from '@/stores/spellsSearch'
 import { useLoadingStore } from '@/stores/loading.ts'
+import Modal from '@/components/Modal.vue'
 
 const spellStore = useSpellsStore()
 const loadingStore = useLoadingStore()
+
+// I think data needs to be modified in order for modal to work?
 const data = computed(() => spellStore.spells)
+
 
 function createColumns() {
   return [
@@ -16,6 +20,7 @@ function createColumns() {
     },
   ]
 }
+
 
 const columns = createColumns()
 const pagination = reactive({
@@ -47,6 +52,8 @@ const themeOverrides = {
   <!-- 4 states to consider doing an wired component: zero state, loading state, working state, error state  -->
   <!-- error state: https://www.naiveui.com/en-US/os-theme/components/result -->
   <!-- loading state: https://www.naiveui.com/en-US/os-theme/components/spin -->
+
+  <!-- Should the data table be an array of modals instead of the list of spells from spellStore? -->
   <n-config-provider :theme-overrides="themeOverrides">
     <n-flex vertical class="wrapper">
       <n-spin v-if="!spellStore.hasError && loadingStore.loading" size="large" />
@@ -60,14 +67,15 @@ const themeOverrides = {
           <p class="error-result">Something went wrong...</p>
         </div>
       </n-result>
-
       <n-data-table
         v-if="!loadingStore.loading && !spellStore.hasError && spellStore.spells.length != 0"
         :columns="columns"
-        :data="data"
+        :data="data" 
         :pagination="pagination"
         :bordered="false"
       />
+
+      <Modal v-if="!loadingStore.loading && !spellStore.hasError && spellStore.spells.length != 0" />
     </n-flex>
   </n-config-provider>
 </template>
