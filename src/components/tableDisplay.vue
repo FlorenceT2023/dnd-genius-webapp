@@ -25,6 +25,10 @@ function rowProps(row: RowData) {
     onClick: async () => {
       showModal.value = true
       title.value = row.spellname
+      // TODO: Add error state to rowProps (look at SearchButton.vue)
+      // TODO: Add loading state to rowProps
+      // TODO: Refactor Modal to its own component file
+      // TODO: Add API call to a service instead
       let spellUrl = `http://localhost:8080/spell/${row.id}`
       const response = await fetch(spellUrl)
       const result = (await response.json()) as ModalFormat
