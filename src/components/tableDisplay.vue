@@ -1,16 +1,30 @@
 <script setup lang="ts">
-import { computed, reactive } from 'vue'
-import { NDataTable, NSpin } from 'naive-ui'
+import { computed, reactive, ref } from 'vue'
+import { NDataTable, NSpin, NModal } from 'naive-ui'
 import { useSpellsStore } from '@/stores/spellsSearch'
 import { useLoadingStore } from '@/stores/loading.ts'
-import Modal from '@/components/Modal.vue'
 
 const spellStore = useSpellsStore()
 const loadingStore = useLoadingStore()
+const showModal = ref(false)
 
 // I think data needs to be modified in order for modal to work?
 const data = computed(() => spellStore.spells)
 
+interface RowData {
+  spellname: string
+}
+
+function rowProps(row: RowData) {
+  return {
+    style: 'cursor: pointer;',
+    onClick: () => {
+      console.log(row.spellname)
+      showModal.value = true
+
+    }
+  }
+}
 
 function createColumns() {
   return [
@@ -45,6 +59,15 @@ const themeOverrides = {
     tdColorHover: '#575757',
   },
 }
+
+const bodyStyle = {
+  width: '600px'
+}
+const segmented = {
+  content: 'soft',
+  footer: 'soft'
+} as const
+
 </script>
 
 <template>
@@ -53,9 +76,9 @@ const themeOverrides = {
   <!-- error state: https://www.naiveui.com/en-US/os-theme/components/result -->
   <!-- loading state: https://www.naiveui.com/en-US/os-theme/components/spin -->
 
-  <!-- Should the data table be an array of modals instead of the list of spells from spellStore? -->
-  <n-config-provider :theme-overrides="themeOverrides">
-    <n-flex vertical class="wrapper">
+  <n-modal-provider>
+    <n-config-provider :theme-overrides="themeOverrides">
+      <n-flex vertical class="wrapper">
       <n-spin v-if="!spellStore.hasError && loadingStore.loading" size="large" />
 
       <n-result
@@ -70,14 +93,28 @@ const themeOverrides = {
       <n-data-table
         v-if="!loadingStore.loading && !spellStore.hasError && spellStore.spells.length != 0"
         :columns="columns"
-        :data="data" 
+        :data="data"
+        :row-props="rowProps" 
         :pagination="pagination"
         :bordered="false"
       />
 
-      <Modal v-if="!loadingStore.loading && !spellStore.hasError && spellStore.spells.length != 0" />
+      <n-modal 
+        v-model:show="showModal"
+        class="custom-card"
+        preset="card"
+        :style="bodyStyle"
+        title= "Spell Name"
+        :bordered="false"
+        size="huge"
+        :segmented="segmented"
+      >
+        <div> Spell description </div>
+        
+      </n-modal>
     </n-flex>
   </n-config-provider>
+  </n-modal-provider>
 </template>
 
 <style scoped>
