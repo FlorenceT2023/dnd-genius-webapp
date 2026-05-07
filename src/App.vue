@@ -15,7 +15,6 @@ import SearchButton from './components/SearchButton.vue'
       <Dropdown />
       <SearchButton />
     </n-space>
-
     <TableDisplay />
   </n-space>
 </template>
