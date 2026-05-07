@@ -15,6 +15,7 @@ const description = ref<string>("")
 const data = computed(() => spellStore.spells)
 
 interface RowData {
+  id: string
   spellname: string
 }
 
@@ -24,7 +25,7 @@ function rowProps(row: RowData) {
     onClick: async () => {
       showModal.value = true
       title.value = row.spellname
-      let spellUrl = `http://localhost:8080/spell/alter-self`
+      let spellUrl = `http://localhost:8080/spell/${row.id}`
       const response = await fetch(spellUrl)
       const result = (await response.json()) as ModalFormat
       description.value = result.data.description

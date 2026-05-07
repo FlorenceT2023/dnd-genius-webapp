@@ -18,7 +18,7 @@ async function handleClick() {
     }
     const response = await fetch(spellUrl)
     const result = (await response.json()) as JsonFormat
-    spellStore.storeSpells(result.data.spells.map(({ name }) => ({ spellname: name })))
+    spellStore.storeSpells(result.data.spells.map(({ name, id }) => ({ spellname: name, id })))
     spellStore.setHasError(false)
   } catch (error) {
     spellStore.setHasError(true)
