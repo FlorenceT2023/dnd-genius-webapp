@@ -3,13 +3,16 @@ import { computed, reactive, ref } from 'vue'
 import { NDataTable, NSpin, NModal } from 'naive-ui'
 import { useSpellsStore } from '@/stores/spellsSearch'
 import { useLoadingStore } from '@/stores/loading.ts'
+import { useSpellsDescriptionStore } from '@/stores/spellsDescription'
 import type { ModalFormat } from '@/models/modalformat'
 
 const spellStore = useSpellsStore()
 const loadingStore = useLoadingStore()
+const spellsDescriptionStore = useSpellsDescriptionStore()
 const showModal = ref(false)
 const title = ref<string>("")
 const description = ref<string>("")
+const show = ref(false)
 
 const data = computed(() => spellStore.spells)
 
@@ -26,19 +29,19 @@ async function handleClick(row: RowData) {
   // TODO: Add loading state to rowProps
   // TODO: Refactor Modal to its own component file
   // TODO: Add API call to a service instead
-    // loadingStore.changeState(true)
-  // try {
+    spellsDescriptionStore.changeState(true)
+  try {
+    let spellUrl = `http://localhost:8080/spell/${row.id}`
+    const response = await fetch(spellUrl)
+    const result = (await response.json()) as ModalFormat
+    description.value = result.data.description
+    // console.log(result)
+  } catch(error) {
+    spellsDescriptionStore.errorState(true)
+  } finally {
+    spellsDescriptionStore.changeState(true)
+  }
 
-  // } catch(error) {
-  //   spellStore.setHasError(true)
-  // } finally {
-  //   loadingStore.changeState(false)
-  // }
-  let spellUrl = `http://localhost:8080/spell/${row.id}`
-  const response = await fetch(spellUrl)
-  const result = (await response.json()) as ModalFormat
-  description.value = result.data.description
-  console.log(result)
 
 }
 
@@ -124,7 +127,10 @@ const segmented = {
         :bordered="false"
       />
 
-        <n-modal
+        <n-spin size = "medium" :show="show">
+          <n-modal
+          @click="show = !show"
+          :loading="spellsDescriptionStore.loading"
           v-model:show="showModal"
           class="custom-card"
           preset="card"
@@ -134,8 +140,10 @@ const segmented = {
           size="huge"
           :segmented="segmented"
         >
+        
           <div> {{ description }} </div>
         </n-modal>
+      </n-spin>
     </n-flex>
   </n-config-provider>
   </n-modal-provider>
