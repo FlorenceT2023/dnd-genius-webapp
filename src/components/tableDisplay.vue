@@ -11,7 +11,6 @@ const showModal = ref(false)
 const title = ref<string>("")
 const description = ref<string>("")
 
-// I think data needs to be modified in order for modal to work?
 const data = computed(() => spellStore.spells)
 
 interface RowData {
@@ -19,22 +18,35 @@ interface RowData {
   spellname: string
 }
 
+async function handleClick(row: RowData) {
+
+  showModal.value = true
+  title.value = row.spellname
+  // TODO: Add error state to rowProps (look at SearchButton.vue)
+  // TODO: Add loading state to rowProps
+  // TODO: Refactor Modal to its own component file
+  // TODO: Add API call to a service instead
+    // loadingStore.changeState(true)
+  // try {
+
+  // } catch(error) {
+  //   spellStore.setHasError(true)
+  // } finally {
+  //   loadingStore.changeState(false)
+  // }
+  let spellUrl = `http://localhost:8080/spell/${row.id}`
+  const response = await fetch(spellUrl)
+  const result = (await response.json()) as ModalFormat
+  description.value = result.data.description
+  console.log(result)
+
+}
+
 function rowProps(row: RowData) {
-  return {
-    style: 'cursor: pointer;',
-    onClick: async () => {
-      showModal.value = true
-      title.value = row.spellname
-      // TODO: Add error state to rowProps (look at SearchButton.vue)
-      // TODO: Add loading state to rowProps
-      // TODO: Refactor Modal to its own component file
-      // TODO: Add API call to a service instead
-      let spellUrl = `http://localhost:8080/spell/${row.id}`
-      const response = await fetch(spellUrl)
-      const result = (await response.json()) as ModalFormat
-      description.value = result.data.description
-      console.log(result)
-    }
+
+    return {
+      style: 'cursor: pointer;',
+        onClick: async () => { handleClick(row) }
   }
 }
 
@@ -104,6 +116,7 @@ const segmented = {
       </n-result>
       <n-data-table
         v-if="!loadingStore.loading && !spellStore.hasError && spellStore.spells.length != 0"
+        
         :columns="columns"
         :data="data"
         :row-props="rowProps" 
@@ -111,19 +124,18 @@ const segmented = {
         :bordered="false"
       />
 
-      <n-modal 
-        v-model:show="showModal"
-        class="custom-card"
-        preset="card"
-        :style="bodyStyle"
-        :title= "title"
-        :bordered="false"
-        size="huge"
-        :segmented="segmented"
-      >
-        <div> {{ description }} </div>
-        
-      </n-modal>
+        <n-modal
+          v-model:show="showModal"
+          class="custom-card"
+          preset="card"
+          :style="bodyStyle"
+          :title= "title"
+          :bordered="false"
+          size="huge"
+          :segmented="segmented"
+        >
+          <div> {{ description }} </div>
+        </n-modal>
     </n-flex>
   </n-config-provider>
   </n-modal-provider>
