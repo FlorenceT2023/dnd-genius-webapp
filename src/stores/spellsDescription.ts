@@ -9,7 +9,7 @@ export const useSpellsDescriptionStore = defineStore('spellsDescription', {
   },
 
   actions: {
-    changeState(state: boolean) {
+    setLoading(state: boolean) {
       this.loading = state
     },
     errorState(error: boolean) {

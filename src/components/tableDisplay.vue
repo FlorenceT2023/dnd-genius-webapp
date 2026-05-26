@@ -29,7 +29,7 @@ async function handleClick(row: RowData) {
   // TODO: Add loading state to rowProps
   // TODO: Refactor Modal to its own component file
   // TODO: Add API call to a service instead
-    spellsDescriptionStore.changeState(true)
+    spellsDescriptionStore.setLoading(true)
   try {
     let spellUrl = `http://localhost:8080/spell/${row.id}`
     const response = await fetch(spellUrl)
@@ -37,9 +37,9 @@ async function handleClick(row: RowData) {
     description.value = result.data.description
     // console.log(result)
   } catch(error) {
-    spellsDescriptionStore.errorState(true)
+    console.log(error)
   } finally {
-    spellsDescriptionStore.changeState(true)
+    spellsDescriptionStore.setLoading(false)
   }
 
 

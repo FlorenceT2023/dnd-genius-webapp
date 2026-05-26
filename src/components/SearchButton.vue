@@ -31,7 +31,7 @@ async function handleClick() {
 <template>
   <n-button
     :loading="loadingStore.loading"
-
+    :disabled="loadingStore.loading"
     icon-placement="left"
     @click="handleClick"
     size="large"
