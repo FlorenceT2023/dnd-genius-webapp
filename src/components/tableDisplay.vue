@@ -127,9 +127,7 @@ const segmented = {
         :bordered="false"
       />
 
-        <n-spin size = "medium" :show="show">
-          <n-modal
-          @click="show = !show"
+          <n-modal v-if="!loadingStore.loading && !spellStore.hasError && spellStore.spells.length != 0"
           :loading="spellsDescriptionStore.loading"
           v-model:show="showModal"
           class="custom-card"
@@ -140,10 +138,10 @@ const segmented = {
           size="huge"
           :segmented="segmented"
         >
-        
-          <div> {{ description }} </div>
+        <n-spin v-if="!spellsDescriptionStore.loading && !spellsDescriptionStore.error" size = "medium" >
+          <div> {{ description }} </div>      
+        </n-spin>
         </n-modal>
-      </n-spin>
     </n-flex>
   </n-config-provider>
   </n-modal-provider>
