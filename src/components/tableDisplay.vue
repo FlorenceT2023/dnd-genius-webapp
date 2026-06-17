@@ -138,7 +138,7 @@ const segmented = {
           size="huge"
           :segmented="segmented"
         >
-        <n-spin v-if="!spellsDescriptionStore.loading && !spellsDescriptionStore.error" size = "medium" >
+        <n-spin size= "medium" :show="spellsDescriptionStore.loading">
           <div> {{ description }} </div>      
         </n-spin>
         </n-modal>
