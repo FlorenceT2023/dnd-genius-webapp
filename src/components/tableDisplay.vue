@@ -12,7 +12,6 @@ const spellsDescriptionStore = useSpellsDescriptionStore()
 const showModal = ref(false)
 const title = ref<string>("")
 const description = ref<string>("")
-const show = ref(false)
 
 const data = computed(() => spellStore.spells)
 
@@ -35,7 +34,6 @@ async function handleClick(row: RowData) {
     const response = await fetch(spellUrl)
     const result = (await response.json()) as ModalFormat
     description.value = result.data.description
-    // console.log(result)
   } catch(error) {
     console.log(error)
   } finally {
@@ -100,8 +98,6 @@ const segmented = {
 <template>
   <!-- Perhaps make the spell name the URL??? -->
   <!-- 4 states to consider doing an wired component: zero state, loading state, working state, error state  -->
-  <!-- error state: https://www.naiveui.com/en-US/os-theme/components/result -->
-  <!-- loading state: https://www.naiveui.com/en-US/os-theme/components/spin -->
 
   <n-modal-provider>
     <n-config-provider :theme-overrides="themeOverrides">

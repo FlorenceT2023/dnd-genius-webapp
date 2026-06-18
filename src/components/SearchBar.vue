@@ -1,5 +1,16 @@
 <script setup lang="ts">
 import { NInput } from 'naive-ui'
+import { useSpellsStore } from '@/stores/spellsSearch'
+
+const spellSearch = useSpellsStore()
+// Add event handler for search bar
+
+
+async function handleInput() {
+
+}
+
+
 </script>
 
 <template>

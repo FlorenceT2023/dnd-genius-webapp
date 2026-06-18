@@ -9,6 +9,7 @@ const loadingStore = useLoadingStore()
 const levelStore = useLevelStore()
 
 // TODO consider moving that logic to a service
+// I think we also need to account for users who use the search function instead of level search
 async function handleClick() {
   loadingStore.changeState(true)
   try {
