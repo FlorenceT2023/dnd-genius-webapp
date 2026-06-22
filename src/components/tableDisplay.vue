@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, reactive, ref } from 'vue'
 import { NDataTable, NSpin, NModal } from 'naive-ui'
-import { useSpellsStore } from '@/stores/spellsSearch'
+import { useSpellsStore } from '@/stores/spells'
 import { useLoadingStore } from '@/stores/loading.ts'
 import { useSpellsDescriptionStore } from '@/stores/spellsDescription'
 import type { ModalFormat } from '@/models/modalformat'
@@ -10,8 +10,8 @@ const spellStore = useSpellsStore()
 const loadingStore = useLoadingStore()
 const spellsDescriptionStore = useSpellsDescriptionStore()
 const showModal = ref(false)
-const title = ref<string>("")
-const description = ref<string>("")
+const title = ref<string>('')
+const description = ref<string>('')
 
 const data = computed(() => spellStore.spells)
 
@@ -21,33 +21,31 @@ interface RowData {
 }
 
 async function handleClick(row: RowData) {
-
   showModal.value = true
   title.value = row.spellname
   // TODO: Add error state to rowProps (look at SearchButton.vue)
   // TODO: Add loading state to rowProps
   // TODO: Refactor Modal to its own component file
   // TODO: Add API call to a service instead
-    spellsDescriptionStore.setLoading(true)
+  spellsDescriptionStore.setLoading(true)
   try {
     let spellUrl = `http://localhost:8080/spell/${row.id}`
     const response = await fetch(spellUrl)
     const result = (await response.json()) as ModalFormat
     description.value = result.data.description
-  } catch(error) {
+  } catch (error) {
     console.log(error)
   } finally {
     spellsDescriptionStore.setLoading(false)
   }
-
-
 }
 
 function rowProps(row: RowData) {
-
-    return {
-      style: 'cursor: pointer;',
-        onClick: async () => { handleClick(row) }
+  return {
+    style: 'cursor: pointer;',
+    onClick: async () => {
+      handleClick(row)
+    },
   }
 }
 
@@ -59,7 +57,6 @@ function createColumns() {
     },
   ]
 }
-
 
 const columns = createColumns()
 const pagination = reactive({
@@ -86,13 +83,12 @@ const themeOverrides = {
 }
 
 const bodyStyle = {
-  width: '600px'
+  width: '600px',
 }
 const segmented = {
   content: 'soft',
-  footer: 'soft'
+  footer: 'soft',
 } as const
-
 </script>
 
 <template>
@@ -102,44 +98,44 @@ const segmented = {
   <n-modal-provider>
     <n-config-provider :theme-overrides="themeOverrides">
       <n-flex vertical class="wrapper">
-      <n-spin v-if="!spellStore.hasError && loadingStore.loading" size="large" />
+        <n-spin v-if="!spellStore.hasError && loadingStore.loading" size="large" />
 
-      <n-result
-        v-if="!loadingStore.loading && spellStore.hasError"
-        status="500"
-        title="500 Server Error"
-      >
-        <div>
-          <p class="error-result">Something went wrong...</p>
-        </div>
-      </n-result>
-      <n-data-table
-        v-if="!loadingStore.loading && !spellStore.hasError && spellStore.spells.length != 0"
-        
-        :columns="columns"
-        :data="data"
-        :row-props="rowProps" 
-        :pagination="pagination"
-        :bordered="false"
-      />
+        <n-result
+          v-if="!loadingStore.loading && spellStore.hasError"
+          status="500"
+          title="500 Server Error"
+        >
+          <div>
+            <p class="error-result">Something went wrong...</p>
+          </div>
+        </n-result>
+        <n-data-table
+          v-if="!loadingStore.loading && !spellStore.hasError && spellStore.spells.length != 0"
+          :columns="columns"
+          :data="data"
+          :row-props="rowProps"
+          :pagination="pagination"
+          :bordered="false"
+        />
 
-          <n-modal v-if="!loadingStore.loading && !spellStore.hasError && spellStore.spells.length != 0"
+        <n-modal
+          v-if="!loadingStore.loading && !spellStore.hasError && spellStore.spells.length != 0"
           :loading="spellsDescriptionStore.loading"
           v-model:show="showModal"
           class="custom-card"
           preset="card"
           :style="bodyStyle"
-          :title= "title"
+          :title="title"
           :bordered="false"
           size="huge"
           :segmented="segmented"
         >
-        <n-spin size= "medium" :show="spellsDescriptionStore.loading">
-          <div> {{ description }} </div>      
-        </n-spin>
+          <n-spin size="medium" :show="spellsDescriptionStore.loading">
+            <div>{{ description }}</div>
+          </n-spin>
         </n-modal>
-    </n-flex>
-  </n-config-provider>
+      </n-flex>
+    </n-config-provider>
   </n-modal-provider>
 </template>
 

@@ -4,7 +4,7 @@ export const useSpellsDescriptionStore = defineStore('spellsDescription', {
   state: () => {
     return {
       loading: false,
-      error: false
+      error: false,
     }
   },
 
@@ -13,7 +13,7 @@ export const useSpellsDescriptionStore = defineStore('spellsDescription', {
       this.loading = state
     },
     errorState(error: boolean) {
-        this.error = error
+      this.error = error
     },
   },
 })

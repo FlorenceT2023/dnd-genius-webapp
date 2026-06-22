@@ -3,7 +3,7 @@ export type ModalFormat = {
 }
 
 export type Spells = {
-    name: string
-    duration: string
-    description: string
+  name: string
+  duration: string
+  description: string
 }

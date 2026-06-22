@@ -1,5 +1,5 @@
 import { setActivePinia, createPinia } from 'pinia'
-import { useSpellsStore } from '@/stores/spellsSearch'
+import { useSpellsStore } from '@/stores/spells'
 import { expect, describe, beforeEach, it } from 'vitest'
 import type { Spell } from '@/models/spell'
 
@@ -20,7 +20,10 @@ describe('Spells Store', () => {
 
   describe('storeSpells', () => {
     it('should update spells', () => {
-      const spells: Spell[] = [{ spellname: 'Fireball' }, { spellname: 'Magic Missile' }]
+      const spells: Spell[] = [
+        { spellname: 'Fireball', id: '1' },
+        { spellname: 'Magic Missile', id: '1' },
+      ]
 
       store.storeSpells(spells)
       expect(store.spells).toHaveLength(2)
