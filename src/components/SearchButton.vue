@@ -11,18 +11,21 @@ const levelStore = useLevelStore()
 const spellsSearch = useSpellsSearchStore()
 
 // TODO consider moving that logic to a service
-// I think we also need to account for users who use the search function instead of level search
-// TODO fix line 21 and 25, url not working
+// We also need to account for users who use the search function instead of level search
+// TODO fix line 21 and 25, url not working (look into mapping, list, or reduce)
+// TODO Level 0 spells not displaying at all - Level 0 returns all spells currently
 async function handleClick() {
   loadingStore.changeState(true)
   try {
     let spellUrl = `http://localhost:8080/spells`
-    if (levelStore.level) {
+    if (levelStore.level && spellsSearch.searchTerm !== '') {
+      const keyWord = btoa(spellsSearch.searchTerm)
+      spellUrl += `?level=${levelStore.level}&searchTerms=${keyWord}`
+    } else if (levelStore.level) {
       spellUrl += `?level=${levelStore.level}`
-    }
-    if (spellsSearch.searchTerm !== '') {
-      const x = btoa(spellsSearch.searchTerm)
-      spellUrl += `&searchTerms=${x}`
+    } else if (spellsSearch.searchTerm !== '') {
+      const keyWord = btoa(spellsSearch.searchTerm)
+      spellUrl += `?searchTerms=${keyWord}`
     }
     const response = await fetch(spellUrl)
     const result = (await response.json()) as JsonFormat
